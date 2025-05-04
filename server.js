@@ -2,7 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 dotenv.config()
 import mongoose from 'mongoose'
-import Url from './models/url.model'
+import Url from './models/url.model.js'
 
 const PORT = process.env.PORT || 3000
 const app = express();
@@ -21,12 +21,12 @@ mongoose.connect(process.env.MONGO_URI)
 
 
 //routes
-router.post('/shorten', async (req, res) => {
+app.post('/shorten', async (req, res) => {
     const url = await Url.create({ full: req.body.full });
     res.json({ short: url.short });
 });
 
-router.get('/:short', async (req, res) => {
+app.get('/:short', async (req, res) => {
     const url = await Url.findOne({ short: req.params.short });
     if (url) return res.redirect(url.full);
     res.status(404).send('Not found');
