@@ -20,6 +20,11 @@ mongoose.connect(process.env.MONGO_URI)
     })
 
 
+// health
+app.get("/health", (req, res) => {
+    res.send("Server is running...")
+})
+
 //routes
 app.post('/shorten', async (req, res) => {
     const url = await Url.create({ full: req.body.full });
