@@ -12,5 +12,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+        - name: Validate Render Deploy Hook
+        run: echo "RENDER_DEPLOY_HOOK is ${{ secrets.RENDER_DEPLOY_HOOK }}"
+        shell: bash
+
       - name: Trigger Render Deploy Hook
+        if: ${{ secrets.RENDER_DEPLOY_HOOK != '' }}
         run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
